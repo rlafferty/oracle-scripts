@@ -1,0 +1,44 @@
+set head off
+set pages 0
+set long 9999999
+spool C:\Temp\Exadata_Privs\tsodwd_user_script.sql
+SELECT DBMS_METADATA.GET_DDL(‘USER’, USERNAME) || ‘;’ DDL
+FROM DBA_USERS;
+SELECT DBMS_METADATA.GET_DDL(‘ROLE’, role)||’;’ DDL
+FROM dba_roles;
+SELECT DBMS_METADATA.GET_GRANTED_DDL(‘ROLE_GRANT’, role) || ‘;’ DDL
+FROM role_role_privs;
+SELECT DBMS_METADATA.GET_GRANTED_DDL(‘SYSTEM_GRANT’, role) || ‘;’ DDL
+FROM role_sys_privs;
+SELECT DBMS_METADATA.GET_GRANTED_DDL(‘OBJECT_GRANT’, role) || ‘;’ DDL
+FROM role_tab_privs;
+spool off;
+
+
+set head off
+set pages 0
+set long 9999999
+spool C:\Temp\Exadata_Privs\tsodwd_user_script.sql
+SELECT DBMS_METADATA.GET_GRANTED_DDL(‘ROLE_GRANT’, USERNAME) || ‘/’ DDL
+FROM DBA_USERS where exists (select ‘x’ from dba_role_privs drp where
+drp.grantee = dba_users.username)
+UNION ALL
+SELECT DBMS_METADATA.GET_GRANTED_DDL(‘SYSTEM_GRANT’, USERNAME) || ‘/’ DDL FROM D
+BA_USERS where exists (select ‘x’ from dba_role_privs drp where
+drp.grantee = dba_users.username)
+UNION ALL
+SELECT DBMS_METADATA.GET_GRANTED_DDL(‘OBJECT_GRANT’, USERNAME) || ‘/’ DDL FROM D
+BA_USERS where exists (select ‘x’ from dba_tab_privs dtp where
+dtp.grantee = dba_users.username);
+spool off;
+
+scp blaff@tnss04428.net.erie.ge.com:/zfssa/export1/utf8/UTF8_DIR_CLOB/* /zfssa/export1/utf8/UTF8_DIR_CLOB/
+scp laffertb@tsdwhss2.trans.ge.com:/mountname/utf8/* /zfssa/export1/
+ls -1 | wc -l
+
+BEGIN
+DBMS_APPLICATION_INFO.set_client_info('1549'); 
+END;
+
+502067717
+

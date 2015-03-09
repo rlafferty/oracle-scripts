@@ -1,0 +1,1264 @@
+DROP MATERIALIZED VIEW GETS_DW_SVC.X_SVC_DW_WIP_JOBS_MTL_RQMTS_MV;
+CREATE MATERIALIZED VIEW GETS_DW_SVC.X_SVC_DW_WIP_JOBS_MTL_RQMTS_MV (INVENTORY_ITEM_ID,ITEM,ORGANIZATION_ID,ORG_CODE,WIP_ENTITY_KEY,ORDER_NUMBER,OPERATION_SEQ_NUMBER,LAST_UPDATE_DATETIME,LAST_UPDATED_BY,CREATION_DATETIME,COMPONENT_SEQUENCE_ID,DEPARTMENT_LONG_NAME,SUPPLY_TYPE,DATE_REQUIRED_DATETIME,QTY_REQUIRED,QTY_ISSUED,QTY_PER_ASSEMBLY,COMMENTS,SUPPLY_SUBINVENTORY,SUPPLY_LOCATOR,MRP_NET_FLAG,QTY_MPS_REQUIRED,MPS_DATE_REQUIRED_DATE,QTY_RELIEVED_MATL_COMPLETION,QTY_RELIEVED_MATL_SCRAP, A_ROWID, B_ROWID, D_ROWID, DEP_MAS_ROWID, PM_ROWID, WM_ROWID)
+TABLESPACE GETS_DW_SVC_TABLES
+PCTUSED    0
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            BUFFER_POOL      DEFAULT
+           )
+NOLOGGING
+PARTITION BY LIST (ORG_CODE)
+(
+  PARTITION ELK VALUES ('ELK')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION IFM VALUES ('IFM')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION KYR VALUES ('KYR')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION XRS VALUES ('XRS')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION XMM VALUES ('XMM')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION ABG VALUES ('ABG')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION XSR VALUES ('XSR')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION NSM VALUES ('NSM')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION GCM VALUES ('GCM')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION IWM VALUES ('IWM')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION XCP VALUES ('XCP')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION KCR VALUES ('KCR')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION KCD VALUES ('KCD')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION KAK VALUES ('KAK')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION LVR VALUES ('LVR')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION TJD VALUES ('TJD')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION XSC VALUES ('XSC')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION ELG VALUES ('ELG')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION XST VALUES ('XST')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION GCR VALUES ('GCR')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION ERI VALUES ('ERI')
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION NO_ORG VALUES (NULL)
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               ),
+  PARTITION UNKNOWN_ORG VALUES (DEFAULT)
+    NOLOGGING
+    NOCOMPRESS
+    TABLESPACE GETS_DW_SVC_TABLES
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                NEXT             1M
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                BUFFER_POOL      DEFAULT
+               )
+)
+NOCACHE
+NOCOMPRESS
+NOPARALLEL
+BUILD IMMEDIATE
+REFRESH FAST ON DEMAND
+WITH ROWID
+AS
+SELECT /*+APPEND */
+      a.inventory_item_id,
+       PM.product_number item,
+       a.organization_id,
+       WM.WAREHOUSE_code org_code,
+       --a.wip_entity_id ,
+       a.wip_entity_key,
+       b.wip_entity_name order_number,
+       a.operation_seq_number,
+       b.LAST_UPDATE_DATETIME,                        --  a.last_update_date ,
+       B.LAST_UPDATED_BY,                              --  a.last_updated_by ,
+       b.CREATION_DATETIME,                              --  a.creation_date ,
+       a.component_sequence_id,
+       DEP_MAS.department_long_name,             --  c.description department,
+       d.meaning supply_type,
+       a.DATE_REQUIRED_DATETIME,
+       a.QTY_REQUIRED,
+       a.QTY_ISSUED,
+       a.QTY_PER_ASSEMBLY,
+       a.COMMENTS,
+       a.SUPPLY_SUBINVENTORY,
+       a.LOCATOR_CODE SUPPLY_LOCATOR,
+       a.MRP_NET_FLAG,
+       a.QTY_MPS_REQUIRED,
+       a.MPS_DATE_REQUIRED_DATE,
+       a.QTY_RELIEVED_MATL_COMPLETION,
+       a.QTY_RELIEVED_MATL_SCRAP,
+       a.ROWID as A_ROWID,
+       b.ROWID as B_ROWID,
+       d.ROWID as D_ROWID,
+       DEP_MAS.ROWID as DEP_MAS_ROWID,
+       PM.ROWID as PM_ROWID,
+       WM.ROWID as WM_ROWID
+  FROM jarosods.MFG_WIPOPREQUIREMENTS_DET a,
+       JAROSODS.WIP_ENTITY_MAS B,
+       --JAROSODS.MFG_BOMDEPTRESOURCES_DET c,
+       jarosods.lookup_codes_ref d,
+       jarosods.DEPARTMENT_MAS DEP_MAS,
+       --JAROSODS.INV_ITEM_LOC_REF E,(How to join this table to A?)
+       jarosods.PRODUCT_MAS PM,
+       jarosods.Warehouse_mas WM
+ WHERE     A.WIP_ENTITY_KEY = B.WIP_ENTITY_KEY
+       AND A.DEPARTMENT_KEY = DEP_MAS.DEPARTMENT_KEY(+)
+       --AND B.LAST_UPDATE_DATETIME > SYSDATE - 730         --Temp Use
+       AND D.LOOKUP_TYPE(+) = 'WIP_SUPPLY'
+       AND D.LOOKUP_CODE(+) = TO_CHAR (A.WIP_SUPPLY_TYPE)
+       AND PM.PRODUCT_KEY = A.PRODUCT_KEY
+       AND WM.WAREHOUSE_KEY = A.WAREHOUSE_KEY
+       AND D.MD_SOURCE_SYSTEM(+) = A.MD_SOURCE_SYSTEM
+       AND a.MD_SOURCE_SYSTEM = 1
+       AND B.MD_SOURCE_SYSTEM = 1;
+
+
+COMMENT ON MATERIALIZED VIEW GETS_DW_SVC.X_SVC_DW_WIP_JOBS_MTL_RQMTS_MV IS
+   'snapshot table for snapshot GETS_DW_SVC.X_SVC_DW_WIP_JOBS_MTL_RQMTS_MV';
+
+CREATE BITMAP INDEX GETS_DW_SVC.X_SVC_WIP_JB_MTL_RQMTS_MV_IX1
+   ON GETS_DW_SVC.X_SVC_DW_WIP_JOBS_MTL_RQMTS_MV (ITEM)
+   TABLESPACE GETS_DW_SVC_INDEXES
+   PCTFREE 10
+   INITRANS 2
+   MAXTRANS 255
+   STORAGE (BUFFER_POOL DEFAULT)
+   NOLOGGING
+   LOCAL (PARTITION ELK
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION IFM
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION KYR
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION XRS
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION XMM
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION ABG
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION XSR
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION NSM
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION GCM
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION IWM
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION XCP
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION KCR
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION KCD
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION KAK
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION LVR
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION TJD
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION XSC
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION ELG
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION XST
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION GCR
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION ERI
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION NO_ORG
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION UNKNOWN_ORG
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT))
+   NOPARALLEL;
+
+CREATE INDEX GETS_DW_SVC.X_SVC_WIP_JB_MTL_RQMTS_MV_IX2
+   ON GETS_DW_SVC.X_SVC_DW_WIP_JOBS_MTL_RQMTS_MV (WIP_ENTITY_KEY)
+   TABLESPACE GETS_DW_SVC_INDEXES
+   PCTFREE 10
+   INITRANS 2
+   MAXTRANS 255
+   STORAGE (BUFFER_POOL DEFAULT)
+   NOLOGGING
+   LOCAL (PARTITION ELK
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION IFM
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION KYR
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION XRS
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION XMM
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION ABG
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION XSR
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION NSM
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION GCM
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION IWM
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION XCP
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION KCR
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION KCD
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION KAK
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION LVR
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION TJD
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION XSC
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION ELG
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION XST
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION GCR
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION ERI
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION NO_ORG
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION UNKNOWN_ORG
+             NOLOGGING
+             NOCOMPRESS
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT))
+   NOPARALLEL;
+
+CREATE BITMAP INDEX GETS_DW_SVC.X_SVC_WIP_JB_MTL_RQMTS_MV_IX3
+   ON GETS_DW_SVC.X_SVC_DW_WIP_JOBS_MTL_RQMTS_MV (ORG_CODE)
+   TABLESPACE GETS_DW_SVC_INDEXES
+   PCTFREE 10
+   INITRANS 2
+   MAXTRANS 255
+   STORAGE (BUFFER_POOL DEFAULT)
+   NOLOGGING
+   LOCAL (PARTITION ELK
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION IFM
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION KYR
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION XRS
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION XMM
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION ABG
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION XSR
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION NSM
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION GCM
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION IWM
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION XCP
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION KCR
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION KCD
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION KAK
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION LVR
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION TJD
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION XSC
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION ELG
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION XST
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION GCR
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION ERI
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION NO_ORG
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT),
+          PARTITION UNKNOWN_ORG
+             NOLOGGING
+             TABLESPACE GETS_DW_SVC_INDEXES
+             PCTFREE 10
+             INITRANS 2
+             MAXTRANS 255
+             STORAGE (INITIAL 64 K
+                      NEXT 1 M
+                      MINEXTENTS 1
+                      MAXEXTENTS UNLIMITED
+                      BUFFER_POOL DEFAULT))
+   NOPARALLEL;
+   
+   CREATE INDEX GETS_DW_SVC.X_SVC_WIP_JB_MTL_RQMTS_MV_IX4 ON GETS_DW_SVC.X_SVC_DW_WIP_JOBS_MTL_RQMTS_MV
+    (A_ROWID)
+    NOLOGGING
+    TABLESPACE GETS_DW_SVC_INDEXES
+    STORAGE    (
+             BUFFER_POOL      DEFAULT
+             )
+    NOPARALLEL;
+    
+       CREATE INDEX GETS_DW_SVC.X_SVC_WIP_JB_MTL_RQMTS_MV_IX5 ON GETS_DW_SVC.X_SVC_DW_WIP_JOBS_MTL_RQMTS_MV
+    (B_ROWID)
+    NOLOGGING
+    TABLESPACE GETS_DW_SVC_INDEXES
+    STORAGE    (
+             BUFFER_POOL      DEFAULT
+             )
+    NOPARALLEL;
+
+       CREATE INDEX GETS_DW_SVC.X_SVC_WIP_JB_MTL_RQMTS_MV_IX6 ON GETS_DW_SVC.X_SVC_DW_WIP_JOBS_MTL_RQMTS_MV
+    (D_ROWID)
+    NOLOGGING
+    TABLESPACE GETS_DW_SVC_INDEXES
+    STORAGE    (
+             BUFFER_POOL      DEFAULT
+             )
+    NOPARALLEL;  
+    
+           CREATE INDEX GETS_DW_SVC.X_SVC_WIP_JB_MTL_RQMTS_MV_IX7 ON GETS_DW_SVC.X_SVC_DW_WIP_JOBS_MTL_RQMTS_MV
+    (DEP_MAS_ROWID)
+    NOLOGGING
+    TABLESPACE GETS_DW_SVC_INDEXES
+    STORAGE    (
+             BUFFER_POOL      DEFAULT
+             )
+    NOPARALLEL;
+    
+               CREATE INDEX GETS_DW_SVC.X_SVC_WIP_JB_MTL_RQMTS_MV_IX8 ON GETS_DW_SVC.X_SVC_DW_WIP_JOBS_MTL_RQMTS_MV
+    (PM_ROWID)
+    NOLOGGING
+    TABLESPACE GETS_DW_SVC_INDEXES
+    STORAGE    (
+             BUFFER_POOL      DEFAULT
+             )
+    NOPARALLEL;   
+    
+                   CREATE INDEX GETS_DW_SVC.X_SVC_WIP_JB_MTL_RQMTS_MV_IX9 ON GETS_DW_SVC.X_SVC_DW_WIP_JOBS_MTL_RQMTS_MV
+    (WM_ROWID)
+    NOLOGGING
+    TABLESPACE GETS_DW_SVC_INDEXES
+    STORAGE    (
+             BUFFER_POOL      DEFAULT
+             )
+    NOPARALLEL;   

@@ -1,0 +1,162 @@
+/* Formatted on 4/9/2012 5:16:14 PM (QP5 v5.185.11230.41888) */
+    SELECT LEVEL, LPAD ('  ', 2 * (LEVEL - 1)) || TO_CHAR (SO_MODULE) s,
+           TRUNC (SO_START_DATE) AS DATE_RUN,
+           SO_JOB_FINISHED,
+           SO_JOB_STARTED,
+             TRUNC (86400 * (SO_JOB_FINISHED - SO_JOB_STARTED))
+           - 60 * (TRUNC ( (86400 * (SO_JOB_FINISHED - SO_JOB_STARTED)) / 60))
+              AS ELAPSED_SECONDS,
+             TRUNC ( (86400 * (SO_JOB_FINISHED - SO_JOB_STARTED)) / 60)
+           -   60
+             * (TRUNC (
+                   ( (86400 * (SO_JOB_FINISHED - SO_JOB_STARTED)) / 60) / 60))
+              ELAPSED_MINUTES,
+             TRUNC ( ( (86400 * (SO_JOB_FINISHED - SO_JOB_STARTED)) / 60) / 60)
+           -   24
+             * (TRUNC (
+                     ( ( (86400 * (SO_JOB_FINISHED - SO_JOB_STARTED)) / 60) / 60)
+                   / 24))
+              ELAPSED_HOURS
+      FROM APPWORX.SO_JOB_HISTORY
+     --where SO_MODULE = 'GETS_HYP_ALL_DATA_LOAD'
+     WHERE SO_START_DATE > TO_TIMESTAMP ('09-Apr-12 00:00:01', 'DD-Mon-RR HH24:MI:SS')
+START WITH SO_MODULE = 'GETS_HYP_ALL_DATA_LOAD'
+CONNECT BY PRIOR SO_JOBID = SO_PARENTS_JOBID;
+
+SELECT *
+  FROM APPWORX.SO_JOB_HISTORY
+ WHERE     (   SO_MODULE = 'GETS_HYP_ALL_DATA_LOAD'
+            OR SO_MODULE = 'GETS_HYP_ESSBASE_CUBES')
+       AND TO_CHAR (SO_START_DATE, 'MM/DD/YYYY') > '04/08/2012';
+
+SELECT *
+  FROM APPWORX.SO_JOB_TABLE
+ WHERE SO_MODULE = 'GETS_HYP_ALL_DATA_LOAD';
+
+SELECT *
+  FROM APPWORX.TEMP_SO_JOB_COMMANDS
+ WHERE SO_JOBID = '92118066';
+
+SELECT *
+  FROM APPWORX.SO_CHAIN_DETAIL
+ WHERE SO_CHAIN_SEQ = '22501';
+
+
+/* Formatted on 4/16/2012 12:09:34 PM (QP5 v5.185.11230.41888) */
+    SELECT LEVEL,
+           RPAD ('*', LEVEL, '*') hier,
+           TO_CHAR (sjh.SO_MODULE) MODULE,
+           CONNECT_BY_ROOT SO_MODULE AS TOP_LEVEL,
+           TRUNC (sjh.SO_START_DATE) AS DATE_RUN,
+           sjh.SO_JOB_FINISHED,
+           sjh.SO_JOB_STARTED,
+           ROUND (
+                TO_NUMBER (
+                     CAST (sjh.SO_JOB_FINISHED AS DATE)
+                   - CAST (sjh.SO_JOB_STARTED AS DATE))
+              * 24
+              * 60)
+              "ELAPSED TIME IN MINUTES",
+           ROUND (
+                TO_NUMBER (
+                     CAST (sjh.SO_JOB_FINISHED AS DATE)
+                   - CAST (sjh.SO_JOB_STARTED AS DATE))
+              * 24
+              * 60
+              * 60)
+              "ELAPSED TIME IN SECONDS"
+      FROM APPWORX.SO_JOB_HISTORY sjh
+     --where SO_MODULE = 'GETS_HYP_ALL_DATA_LOAD'
+     WHERE     sjh.SO_START_DATE >
+                  TO_TIMESTAMP ('15-MAR-12 00:00:01', 'DD-Mon-RR HH24:MI:SS')
+           AND sjh.SO_STATUS = 32
+START WITH sjh.SO_JOBID IN
+              (SELECT sjh1.SO_JOBID
+                 FROM APPWORX.SO_JOB_HISTORY sjh1
+                WHERE     sjh1.SO_MODULE IN
+                             ('GSOSVC_DW_ESRVC_DAILY',
+                              'GSOSVC_DW_METRIC_DAILY',
+                              'GSOSVC_DW_MV_REFRESH_DAILY',
+                              'GSOSVC_MEGA_SA_MV_REFRESH',
+                              'GSOSVC_NEGOTIATED_BUY_WEEKLY',
+                              'GSOSVC_DW_UX_MV_REFRESH_DAILY')
+                      AND sjh1.SO_STATUS = 32)
+CONNECT BY PRIOR sjh.SO_JOBID = sjh.SO_PARENTS_JOBID;
+
+SELECT *
+  FROM APPWORX.SO_JOB_HISTORY
+ WHERE SO_MODULE = 'GETS_HYP_ALL_DATA_LOAD' AND SO_STATUS = 32;
+
+SELECT *
+  FROM (    SELECT SO_JOBID, SO_PARENTS_JOBID, SO_MODULE
+              FROM APPWORX.SO_JOB_HISTORY
+        START WITH SO_MODULE = 'GSOSVC_DW_MV_REFRESH_DAILY'
+        CONNECT BY PRIOR SO_JOBID = SO_PARENTS_JOBID)
+ WHERE SO_PARENTS_JOBID IS NULL;
+
+(    SELECT SO_MODULE
+       FROM APPWORX.SO_JOB_HISTORY sjh2
+      WHERE LEVEL = 1
+ START WITH sjh.so_jobid = sjh2.so_jobid
+ CONNECT BY PRIOR SO_JOBID = SO_PARENTS_JOBID);
+
+
+
+/* Formatted on 4/16/2012 9:23:43 AM (QP5 v5.185.11230.41888) */
+    SELECT LEVEL,
+           LPAD ('  ', 2 * (LEVEL - 1)) || TO_CHAR (SO_MODULE) s,
+           TRUNC (SO_START_DATE) AS DATE_RUN,
+           SO_JOB_FINISHED,
+           SO_JOB_STARTED,
+           ROUND (
+                TO_NUMBER (
+                   CAST (SO_JOB_FINISHED AS DATE) - CAST (SO_JOB_STARTED AS DATE))
+              * 24
+              * 60)
+              "ELAPSED TIME IN MINUTES",
+           ROUND (
+                TO_NUMBER (
+                   CAST (SO_JOB_FINISHED AS DATE) - CAST (SO_JOB_STARTED AS DATE))
+              * 24
+              * 60
+              * 60)
+              "ELAPSED TIME IN SECONDS",
+             TRUNC (86400 * (SO_JOB_FINISHED - SO_JOB_STARTED))
+           - 60 * (TRUNC ( (86400 * (SO_JOB_FINISHED - SO_JOB_STARTED)) / 60))
+              AS ELAPSED_SECONDS,
+             TRUNC ( (86400 * (SO_JOB_FINISHED - SO_JOB_STARTED)) / 60)
+           -   60
+             * (TRUNC (
+                   ( (86400 * (SO_JOB_FINISHED - SO_JOB_STARTED)) / 60) / 60))
+              ELAPSED_MINUTES,
+             TRUNC ( ( (86400 * (SO_JOB_FINISHED - SO_JOB_STARTED)) / 60) / 60)
+           -   24
+             * (TRUNC (
+                     ( ( (86400 * (SO_JOB_FINISHED - SO_JOB_STARTED)) / 60) / 60)
+                   / 24))
+              ELAPSED_HOURS
+      FROM APPWORX.SO_JOB_HISTORY
+     --where SO_MODULE = 'GETS_HYP_ALL_DATA_LOAD'
+     WHERE     SO_START_DATE >
+                  TO_TIMESTAMP ('16-APR-12 00:00:01', 'DD-Mon-RR HH24:MI:SS')
+           AND SO_STATUS = 32
+START WITH SO_JOBID IN
+              (SELECT SO_JOBID
+                 FROM APPWORX.SO_JOB_HISTORY
+                WHERE     SO_MODULE = 'GETS_HYP_ALL_DATA_LOAD'
+                and SO_START_DATE >
+                  TO_TIMESTAMP ('16-APR-12 00:00:01', 'DD-Mon-RR HH24:MI:SS'))
+CONNECT BY PRIOR SO_JOBID = SO_PARENTS_JOBID;
+
+SELECT *
+  FROM APPWORX.SO_JOB_HISTORY
+ WHERE     SO_MODULE = 'GETS_HYP_ALL_DATA_LOAD'
+       AND SO_START_DATE >
+              TO_TIMESTAMP ('16-Apr-12 00:00:01', 'DD-Mon-RR HH24:MI:SS')
+       AND SO_STATUS = 32;
+       
+       SELECT *
+  FROM APPWORX.SO_JOB_HISTORY
+ WHERE     SO_MODULE = 'GSOSVC_DW_ESRVC_DAILY'
+ order by SO_JOB_STARTED asc;
+       

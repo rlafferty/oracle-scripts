@@ -1,0 +1,80 @@
+/* Formatted on 12/19/2012 12:35:11 PM (QP5 v5.215.12089.38647) */
+SELECT css.*
+  FROM CSMIG.CSM$ERRORS css,
+       SYS.COL$ col,
+       SYS.OBJ$ obj,
+       all_users ts                                             --, SYS.TS$ ts
+ WHERE                                                  --obj.OBJ# = '8268836'
+      css  .OBJ# = obj.OBJ#
+       AND css.COL# = col.COL#
+       AND css.OBJ# = col.OBJ#
+       AND CSS.ERR# IN ('2')
+       --AND CSS.CNVSIZE > 0
+       AND obj.OWNER# = ts.user_id;
+
+--        GROUP BY obj.NAME,
+--                 col.NAME,
+--                 ts.username,
+--                 DECODE (css.typ#,
+--                         1, 'VARCHAR2',
+--                         8, 'LONG',
+--                         96, 'CHAR',
+--                         112, 'CLOB')
+
+
+SELECT *
+  FROM CSMIG.CSMV$ERRORS
+ WHERE     ERROR_TYPE = 'DATA_LOSS'
+       AND OWNER_NAME NOT IN ('SYS', 'SYSTEM')
+       AND TABLE_NAME = 'GETR_GLOBAL_PART_SOURCE'
+       AND COLUMN_ID = '4'
+       AND ROWNUM <= 1000;
+
+SELECT a.*
+  FROM GETS_DW_IDW.GETR_GLOBAL_PART_SOURCE a
+ WHERE ROWID IN
+          (SELECT DATA_ROWID
+             FROM CSMIG.CSMV$ERRORS
+            WHERE     ERROR_TYPE = 'DATA_LOSS'
+                  AND OWNER_NAME NOT IN ('SYS', 'SYSTEM')
+                  AND TABLE_NAME = 'GETR_GLOBAL_PART_SOURCE'
+                  AND COLUMN_ID = '4'
+                  AND ROWNUM <= 1);
+
+SELECT value$
+  FROM sys.props$
+ WHERE name = 'NLS_CHARACTERSET';
+
+
+SELECT PART_DESCRIPTION,
+       --LENGTH (PART_DESCRIPTION) ,
+       CONVERT (PART_DESCRIPTION, 'WE8ISO8859P1', 'UTF8') AS CONVERTED_VALUE,
+       DUMP (CONVERT (PART_DESCRIPTION, 'WE8ISO8859P1', 'UTF8'))
+          AS CONVERTED_DUMP,
+       DUMP (PART_DESCRIPTION) AS ORIGINAL_DUMP
+  FROM GETS_DW_IDW.GETR_GLOBAL_PART_SOURCE
+ WHERE ROWID IN
+          (SELECT DATA_ROWID
+             FROM CSMIG.CSMV$ERRORS
+            WHERE     ERROR_TYPE = 'DATA_LOSS'
+                  AND OWNER_NAME NOT IN ('SYS', 'SYSTEM')
+                  AND TABLE_NAME = 'GETR_GLOBAL_PART_SOURCE'
+                  AND COLUMN_ID = '4'
+                  AND ROWNUM <= 1);
+                  
+                  
+                  select ascii(INSTRB((CONVERT (PART_DESCRIPTION, 'WE8ISO8859P1', 'UTF8')))) from GETS_DW_IDW.GETR_GLOBAL_PART_SOURCE
+                  where ROWID = 'AAJNQLAAuAAAFAKAAh';
+                  
+                  
+                  
+                  select ASCII(50050)
+     ,DUMP(ASCII(50050))
+     ,CONVERT(ASCII(50050), 'UTF8')
+     ,chr(CONVERT(ASCII(50050) ,'WE8ISO8859P1', 'UTF8'))
+ from dual;
+ 
+ select CHR(193) from dual;
+ 
+ 
+                

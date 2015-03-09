@@ -1,0 +1,156 @@
+select * from CSMIG.CSM$COLUMNS;
+
+select distinct OWNER_NAME, TABLE_NAME, COLUMN_NAME, COLUMN_TYPE from CSMIG.CSMV$ERRORS
+where ERROR_TYPE in ('CS_EXCEED_SIZE', 'EXCEED_SIZE')
+order by 1,2,3;
+
+select * from CSMIG.CSM$TABLES
+where ADDSIZE > 0;
+
+select obj.NAME, col.NAME, MAX(CNVSIZE) MAX_SIZE, ROUND(MAX(CNVSIZE)*1.2) as TO_BE from CSMIG.CSM$ERRORS css, SYS.COL$ col, SYS.OBJ$ obj
+where obj.OBJ# = '8268836'
+and css.OBJ# = obj.OBJ#
+and css.COL# = col.COL#
+and css.OBJ# = col.OBJ#
+group by obj.NAME, col.NAME;
+
+select * from CSMIG.CSMV$ERRORS;
+
+
+select css.OBJ#, CSS.COL#, MAX(CNVSIZE) from CSMIG.CSM$ERRORS css
+where css.OBJ# = '8268836'
+--and css.OBJ# = obj.OBJ#
+--and css.COL# = col.COL#
+group by css.OBJ#, CSS.COL#;
+
+
+--select * from JAROSCONNECT.
+
+select * from all_tables
+where table_name like '%EVO%';
+
+select * from SVC_LMS_EVO_STATISTICS_D;
+
+select * from dba_tables;
+
+select * from SYS.COL$
+where OBJ# = '8268836'
+and COL# = '38';
+select * from SYS.OBJ$
+where OBJ# = '8268836';
+
+
+----- TRUNCATION SCRIPT GENERATION ----------
+SELECT    'ALTER TABLE '
+       || sch_NAME
+       || '.'
+       || tab_NAME
+       || ' MODIFY '
+       || col_NAME
+       || ' '
+       ||DATATYPE
+       || '('
+       || TO_BE
+       || ');'
+  FROM (  SELECT obj.NAME as tab_NAME,
+                 col.NAME as col_NAME,
+                 ts.username as sch_NAME,
+                 MAX (css.CNVSIZE) MAX_SIZE,
+                 ROUND (MAX (css.CNVSIZE) * 1.2) AS TO_BE,
+                 DECODE (css.typ#,
+                         1, 'VARCHAR2',
+                         8, 'LONG',
+                         96, 'CHAR',
+                         112, 'CLOB')
+                    AS DATATYPE
+            FROM CSMIG.CSM$ERRORS css,
+                 SYS.COL$ col,
+                 SYS.OBJ$ obj,
+                 all_users ts                                   --, SYS.TS$ ts
+           WHERE                                        --obj.OBJ# = '8268836'
+                css  .OBJ# = obj.OBJ#
+                 AND css.COL# = col.COL#
+                 AND css.OBJ# = col.OBJ#
+                 AND CSS.TYP# IN ('1', '3')
+                 AND CSS.CNVSIZE > 0
+                 AND obj.OWNER# = ts.user_id
+        GROUP BY obj.NAME,
+                 col.NAME,
+                 ts.username,
+                 DECODE (css.typ#,
+                         1, 'VARCHAR2',
+                         8, 'LONG',
+                         96, 'CHAR',
+                         112, 'CLOB')); 
+
+
+---------------
+
+SELECT    'ALTER TABLE '
+       || sch_NAME
+       || '.'
+       || tab_NAME
+       || ' MODIFY '
+       || col_NAME
+       || ' '
+       || DATATYPE
+       || '('
+       || TO_BE
+       || ');'
+  FROM (  SELECT obj.NAME AS tab_NAME,
+                 col.NAME AS col_NAME,
+                 ts.username AS sch_NAME,
+                 MAX (css.CNVSIZE) MAX_SIZE,
+                 ROUND (MAX (css.CNVSIZE) * 1.2) AS TO_BE,
+                 DECODE (css.typ#,
+                         1, 'VARCHAR2',
+                         8, 'LONG',
+                         96, 'CHAR',
+                         112, 'CLOB')
+                    AS DATATYPE
+            FROM CSMIG.CSM$ERRORS css,
+                 SYS.COL$ col,
+                 SYS.OBJ$ obj,
+                 all_users ts                                   --, SYS.TS$ ts
+           WHERE                                        --obj.OBJ# = '8268836'
+                css  .OBJ# = obj.OBJ#
+                 AND css.COL# = col.COL#
+                 AND css.OBJ# = col.OBJ#
+                 AND CSS.TYP# IN ('1', '3')
+                 AND CSS.CNVSIZE > 0
+                 AND obj.OWNER# = ts.user_id
+        GROUP BY obj.NAME,
+                 col.NAME,
+                 ts.username,
+                 DECODE (css.typ#,
+                         1, 'VARCHAR2',
+                         8, 'LONG',
+                         96, 'CHAR',
+                         112, 'CLOB')
+        ORDER BY 3, 1, 2);
+
+
+SELECT    'CREATE TABLE JAROSODS.'
+       || TABLE_NAME
+       || '_12212012 TABLESPACE JAROSODSDAT AS SELECT * /*+ APPEND */ from '
+       || OWNER
+       || '.'
+       || TABLE_NAME
+       || ';'
+  FROM dba_tables
+ WHERE OWNER = 'CSMIG';
+
+SELECT    'BEGIN
+  SYS.DBMS_STATS.GATHER_TABLE_STATS (
+      OwnName        => ''JAROSODS''
+     ,TabName        => '''
+       || TABLE_NAME
+       || '''
+    ,Estimate_Percent  => DBMS_STATS.AUTO_SAMPLE_SIZE
+    ,Method_Opt        => ''FOR ALL COLUMNS SIZE 1''
+    ,GRANULARITY => ''ALL''
+    ,Cascade           => TRUE);
+END;
+/'
+  FROM dba_TABLES
+ WHERE owner = 'JAROSODS' AND TABLE_NAME LIKE '%CSM%_12212012';

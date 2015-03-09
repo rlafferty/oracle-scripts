@@ -1,0 +1,181 @@
+
+WITH PO_BYPART
+     AS (SELECT /*+ APPEND NOPARALLEL */
+               pOL3.PO_DOCUMENT_TYPE_CODE,
+                PRODUCT_MAS.PRODUCT_KEY,
+                POL.PO_HEADER_LKP,
+                POL.DETAIL_KEY,
+                POL.INVENTORY_ITEM_ID,
+                POL.QTY_ORDERED PO_QUANTITY,
+                POL.UNIT_PRICE_LOCAL_AMOUNT,
+                POL.ORGANIZATION_ID,
+                POL.UNIT_OF_MEASURE,
+                POL.MD_LOOKUP_VALUE,
+                POL.MD_SOURCE_SYSTEM,
+                TRUNC (POL.POL_CREATION_DATETIME) AS CREATED
+           FROM    JAROSODS.PRODUCT_MAS
+                LEFT OUTER JOIN
+                      (SELECT PO_LINE.PRODUCT_KEY,
+                              PO_LINE.PO_HEADER_LKP,
+                              PO_LINE.DETAIL_KEY,
+                              PO_LINE.INVENTORY_ITEM_ID,
+                              PO_LINE.QTY_ORDERED,
+                              PO_LINE.UNIT_PRICE_LOCAL_AMOUNT,
+                              PO_LINE.ORGANIZATION_ID,
+                              PO_LINE.UNIT_OF_MEASURE,
+                              PO_LINE.MD_LOOKUP_VALUE,
+                              PO_LINE.MD_SOURCE_SYSTEM,
+                              PO_LINE.POL_CREATION_DATETIME
+                         FROM JAROSODS.PO_LINES_DET PO_LINE,
+                              JAROSODS.PO_HEADERS_DET HEAD
+                        WHERE HEAD.MD_LOOKUP_VALUE = PO_LINE.PO_HEADER_LKP) POL
+                   INNER JOIN
+                      (  SELECT MAX (
+                                   PO_LINES_DET.POL_LAST_UPDATE_DATETIME)
+                                KEEP (DENSE_RANK FIRST ORDER BY
+                                                          PO_LINES_DET.POL_CREATION_DATETIME DESC,
+                                                          PO_LINES_DET.POL_LAST_UPDATE_DATETIME)
+                                   CREATE_DATE,
+                                MAX (
+                                   PO_LINES_DET.POL_CREATION_DATETIME)
+                                KEEP (DENSE_RANK FIRST ORDER BY
+                                                          PO_LINES_DET.POL_CREATION_DATETIME DESC,
+                                                          PO_LINES_DET.POL_LAST_UPDATE_DATETIME)
+                                   UPDATE_DATE,
+                                MAX (
+                                   PO_LINES_DET.PO_HEADER_LKP)
+                                KEEP (DENSE_RANK FIRST ORDER BY
+                                                          PO_LINES_DET.POL_CREATION_DATETIME DESC,
+                                                          PO_LINES_DET.POL_LAST_UPDATE_DATETIME)
+                                   PO_LKP_NUM,
+                                MAX (
+                                   PO_LINES_DET.DETAIL_KEY)
+                                KEEP (DENSE_RANK FIRST ORDER BY
+                                                          PO_LINES_DET.POL_CREATION_DATETIME DESC,
+                                                          PO_LINES_DET.POL_LAST_UPDATE_DATETIME)
+                                   PO_LINE_KEY,
+                                PO_LINES_DET.PRODUCT_KEY,
+                                DECODE (PO_HEADERS_DET.PO_DOCUMENT_TYPE_CODE,
+                                        'STANDARD', 'PO',
+                                        'PLANNED', 'PO',
+                                        'CONTRACT', 'PO',
+                                        'BLANKET', 'PO',
+                                        'QUOTATION', 'QU')
+                                   AS PO_DOCUMENT_TYPE_CODE
+                           FROM JAROSODS.PO_LINES_DET, JAROSODS.PO_HEADERS_DET
+                          WHERE     PO_HEADERS_DET.MD_LOOKUP_VALUE =
+                                       PO_LINES_DET.PO_HEADER_LKP
+                                AND PO_HEADERS_DET.PO_DOCUMENT_TYPE_CODE IN
+                                       ('STANDARD',
+                                        'PLANNED',
+                                        'CONTRACT',
+                                        'BLANKET')
+                                AND PO_HEADERS_DET.END_DATE < SYSDATE
+                                AND PO_LINES_DET.PRODUCT_KEY > -1
+                                AND PO_HEADERS_DET.poh_closed_code != 'FINALLY CLOSED'
+                       GROUP BY PO_LINES_DET.PRODUCT_KEY,
+                                DECODE (PO_HEADERS_DET.PO_DOCUMENT_TYPE_CODE,
+                                        'STANDARD', 'PO',
+                                        'PLANNED', 'PO',
+                                        'CONTRACT', 'PO',
+                                        'BLANKET', 'PO',
+                                        'QUOTATION', 'QU')) POL3
+                   ON     POL.PO_HEADER_LKP = POL3.PO_LKP_NUM
+                      AND POL.DETAIL_KEY = POL3.PO_LINE_KEY
+                ON PRODUCT_MAS.PRODUCT_KEY = POL.PRODUCT_KEY
+          WHERE PRODUCT_MAS.WAREHOUSE_ID = '103'),
+     QU_BYPART
+     AS (SELECT /*+ NOPARALLEL */
+               POL2.PO_DOCUMENT_TYPE_CODE,
+                PRODUCT_MAS.PRODUCT_KEY,
+                POL1.PO_HEADER_LKP,
+                POL1.DETAIL_KEY,
+                POL1.INVENTORY_ITEM_ID,
+                POL1.QTY_ORDERED PO_QUANTITY,
+                POL1.UNIT_PRICE_LOCAL_AMOUNT,
+                POL1.ORGANIZATION_ID,
+                POL1.UNIT_OF_MEASURE,
+                POL1.MD_LOOKUP_VALUE,
+                POL1.MD_SOURCE_SYSTEM,
+                TRUNC (POL1.END_DATE) AS CREATED
+           FROM    JAROSODS.PRODUCT_MAS
+                LEFT OUTER JOIN
+                      (SELECT PO_LINE.PRODUCT_KEY,
+                              PO_LINE.PO_HEADER_LKP,
+                              PO_LINE.DETAIL_KEY,
+                              PO_LINE.INVENTORY_ITEM_ID,
+                              PO_LINE.QTY_ORDERED,
+                              PO_LINE.UNIT_PRICE_LOCAL_AMOUNT,
+                              PO_LINE.ORGANIZATION_ID,
+                              PO_LINE.UNIT_OF_MEASURE,
+                              PO_LINE.MD_LOOKUP_VALUE,
+                              PO_LINE.MD_SOURCE_SYSTEM,
+                              HEAD.END_DATE
+                         FROM JAROSODS.PO_LINES_DET PO_LINE,
+                              JAROSODS.PO_HEADERS_DET HEAD
+                        WHERE HEAD.MD_LOOKUP_VALUE = PO_LINE.PO_HEADER_LKP) POL1
+                   INNER JOIN
+                      (  SELECT MAX (
+                                   PO_LINES_DET.POL_LAST_UPDATE_DATETIME)
+                                KEEP (DENSE_RANK FIRST ORDER BY
+                                                          PO_HEADERS_DET.END_DATE DESC,
+                                                          PO_LINES_DET.POL_LAST_UPDATE_DATETIME)
+                                   CREATE_DATE,
+                                MAX (
+                                   PO_LINES_DET.POL_CREATION_DATETIME)
+                                KEEP (DENSE_RANK FIRST ORDER BY
+                                                          PO_HEADERS_DET.END_DATE DESC,
+                                                          PO_LINES_DET.POL_LAST_UPDATE_DATETIME)
+                                   UPDATE_DATE,
+                                MAX (
+                                   PO_LINES_DET.PO_HEADER_LKP)
+                                KEEP (DENSE_RANK FIRST ORDER BY
+                                                          PO_HEADERS_DET.END_DATE DESC,
+                                                          PO_LINES_DET.POL_LAST_UPDATE_DATETIME)
+                                   PO_LKP_NUM,
+                                MAX (
+                                   PO_LINES_DET.DETAIL_KEY)
+                                KEEP (DENSE_RANK FIRST ORDER BY
+                                                          PO_HEADERS_DET.END_DATE DESC,
+                                                          PO_LINES_DET.POL_LAST_UPDATE_DATETIME)
+                                   PO_LINE_KEY,
+                                PO_LINES_DET.PRODUCT_KEY,
+                                DECODE (PO_HEADERS_DET.PO_DOCUMENT_TYPE_CODE,
+                                        'STANDARD', 'PO',
+                                        'PLANNED', 'PO',
+                                        'CONTRACT', 'PO',
+                                        'BLANKET', 'PO',
+                                        'QUOTATION', 'QU')
+                                   AS PO_DOCUMENT_TYPE_CODE
+                           FROM JAROSODS.PO_LINES_DET, JAROSODS.PO_HEADERS_DET
+                          WHERE     PO_HEADERS_DET.MD_LOOKUP_VALUE =
+                                       PO_LINES_DET.PO_HEADER_LKP
+                                AND PO_HEADERS_DET.PO_DOCUMENT_TYPE_CODE =
+                                       'QUOTATION'
+                                AND PO_HEADERS_DET.END_DATE < SYSDATE
+                                AND PO_LINES_DET.PRODUCT_KEY > 0
+                                AND PO_HEADERS_DET.poh_closed_code != 'FINALLY CLOSED'
+                       GROUP BY PO_LINES_DET.PRODUCT_KEY,
+                                DECODE (PO_HEADERS_DET.PO_DOCUMENT_TYPE_CODE,
+                                        'STANDARD', 'PO',
+                                        'PLANNED', 'PO',
+                                        'CONTRACT', 'PO',
+                                        'BLANKET', 'PO',
+                                        'QUOTATION', 'QU')) POL2
+                   ON     POL1.PO_HEADER_LKP = POL2.PO_LKP_NUM
+                      AND POL1.DETAIL_KEY = POL2.PO_LINE_KEY
+                ON PRODUCT_MAS.PRODUCT_KEY = POL1.PRODUCT_KEY
+          WHERE PRODUCT_MAS.WAREHOUSE_ID = '103')
+SELECT distinct PO_BYPART.PRODUCT_KEY,
+       PO_BYPART.INVENTORY_ITEM_ID,
+       PO_BYPART.ORGANIZATION_ID,
+       PO_BYPART.PO_DOCUMENT_TYPE_CODE,
+       PO_BYPART.PO_QUANTITY,
+       PO_BYPART.UNIT_PRICE_LOCAL_AMOUNT AS "PO_UNIT_PRICE_LCL_AMT",
+       PO_BYPART.CREATED AS "PO_CREATED_DT",
+       QU_BYPART.PO_DOCUMENT_TYPE_CODE,
+       QU_BYPART.PO_QUANTITY AS "QUOTE_QUANTITY",
+       QU_BYPART.UNIT_PRICE_LOCAL_AMOUNT AS "QU_UNIT_PRICE_LCL_AMT",
+       QU_BYPART.CREATED AS "QUOTE_END_DT"
+  FROM PO_BYPART, QU_BYPART
+WHERE PO_BYPART.PRODUCT_KEY = QU_BYPART.PRODUCT_KEY;

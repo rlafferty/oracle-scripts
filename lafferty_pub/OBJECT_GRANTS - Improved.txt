@@ -1,0 +1,30 @@
+BEGIN
+  dbms_output.enable(1000000);
+ 
+    FOR x IN ( SELECT owner, 
+                      object_name,
+                      DECODE(object_type, 'TABLE' ,   'select, insert, update, delete',
+                                          'SEQUENCE', 'select',
+                                          'VIEW',     'select',
+                                                      'execute') AS privs,
+                      DECODE (owner, 'USERA', 'SCHEMA_B_USER' ) AS app_user
+                 FROM dba_objects
+                WHERE object_type IN ('TABLE',    'PACKAGE', 'PROCEDURE',
+                                      'FUNCTION', 'SEQUENCE', 'VIEW')
+                  AND owner       IN ('USERA' ))
+    LOOP
+      BEGIN
+         EXECUTE IMMEDIATE 'grant ' || x.privs       || ' on ' || x.owner ||
+                           '.'      || x.object_name || ' to ' || x.app_user   ;
+ 
+--        EXECUTE IMMEDIATE 'create or replace synonym '|| x.app_user||'.'||x.object_name||
+--                           ' for ' ||x.owner||'.'||x.object_name ;
+ 
+      EXCEPTION
+        WHEN others THEN
+          dbms_output.put_line('Bad owner = '||x.owner||';  Bad app_user='||x.app_user||
+                               ';  Bad object_name='||x.object_name);
+      END;
+    END LOOP;
+END;
+/ 
